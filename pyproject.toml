@@ -3,7 +3,7 @@ name = "agents"
 version = "0.1.0"
 description = "A very simple agent framework for LLM-based agents research, as self-contained as possible"
 requires-python = ">=3.11"
-license = "CC-BY-NC-SA-4.0"
+license = "MIT"
 authors = [
     { name = "Antonio Badilla-Olivas" },
 ]
