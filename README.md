@@ -20,37 +20,20 @@ and persists state to disk.
 
 ```
 agents/
-├── core/                    # Standalone agent scaffold
-│   ├── types.py             # Frozen dataclasses + default constants
-│   ├── providers.py         # Protocol interfaces + implementations
-│   │   ├── Model            # Protocol: generate(messages, tools) → ModelResponse
-│   │   ├── OpenRouter       # OpenAI-compatible API via OpenRouter
-│   │   ├── Tools            # Protocol: open/close, list_tools, call_tool
-│   │   ├── McpTools         # MCP server tool provider (streamable-http)
-│   │   ├── LocalTools       # Built-in file I/O and task tools
-│   │   ├── ToolSearch       # Lazy tool discovery wrapper
-│   │   ├── Store            # Protocol: async key-value read/write/append
-│   │   ├── DiskStore        # File-backed store with path containment
-│   │   └── MemoryStore      # In-memory store (testing)
-│   ├── agent.py             # ReAct loop (Agent class, RunResult)
-│   ├── middleware.py         # Middleware base, Context, Transcript, Compactor
-│   ├── tools.py             # Built-in tool executors for LocalTools
-│   └── __init__.py          # Public API re-exports
-├── backends.py              # Session wrappers (ClaudeCode, OpenCode, AgentSession)
-├── orchestrator.py          # Turn-driven game loop (consumer code)
-├── prompts/                 # System prompt templates (consumer code)
-└── AGENTS.md
+├── __init__.py          # Public API re-exports
+├── types.py             # Frozen dataclasses + default constants
+├── providers.py         # Protocol interfaces + implementations
+├── agent.py             # ReAct loop (Agent class, RunResult)
+├── middleware.py         # Middleware base, Context, Transcript, Compactor
+└── tools.py             # Built-in tool executors for LocalTools
 ```
-
-`core/` is the reusable framework. `backends.py`, `orchestrator.py`, and
-`prompts/` are consumer code specific to the host application.
 
 ## Core API
 
 ### Agent
 
 ```python
-from agents.core import Agent, OpenRouter, McpTools, DiskStore, Transcript, Compactor
+from agents import Agent, OpenRouter, McpTools, DiskStore, Transcript, Compactor
 
 agent = Agent(
     model=OpenRouter(model="openai/gpt-5-mini", temperature=0.7),
@@ -72,7 +55,7 @@ print(f"Tokens: {result.total_input_tokens} in, {result.total_output_tokens} out
 Typed configuration with validation. All fields have sensible defaults.
 
 ```python
-from agents.core import AgentConfig
+from agents import AgentConfig
 
 config = AgentConfig(
     temperature=0.7,
@@ -89,7 +72,7 @@ Fetches per-model context windows and pricing from OpenRouter's API.
 Thread-safe cache, graceful degradation if API is unreachable.
 
 ```python
-from agents.core import fetch_openrouter_model_info
+from agents import fetch_openrouter_model_info
 
 info = await fetch_openrouter_model_info("openai/gpt-5-mini")
 if info:
