@@ -133,6 +133,23 @@ Built-in middleware:
 - **Transcript** — Writes JSONL event stream to a Store.
 - **Compactor** — Summarises old messages when token count exceeds threshold.
 
+## Installation (uv)
+
+```bash
+# Add as a dependency (with MCP support)
+uv add "agents[mcp] @ git+https://github.com/Antonio-Tresol/agents.git"
+
+# Or add to pyproject.toml manually:
+# dependencies = [
+#     "agents[mcp] @ git+https://github.com/Antonio-Tresol/agents.git",
+# ]
+# Then: uv sync
+
+# Note: if using hatchling as build backend, add:
+# [tool.hatch.metadata]
+# allow-direct-references = true
+```
+
 ## Dependencies
 
 - `httpx` — HTTP client for OpenRouter API and MCP transport
